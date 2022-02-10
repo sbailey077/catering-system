@@ -12,7 +12,6 @@ import com.techelevator.view.Menu;
  * the CateringSystem class to do any work and pass the results between those 2 classes.
  */
 public class CateringSystemCLI {
-
 	/*
 	 * The menu class is instantiated in the main() method at the bottom of this file.  
 	 * It is the only class instantiated in the starter code.  
@@ -54,5 +53,6 @@ public class CateringSystemCLI {
 		Menu menu = new Menu();
 		CateringSystemCLI cli = new CateringSystemCLI(menu);
 		cli.run();
+
 	}
 }
