@@ -1,6 +1,9 @@
 package com.techelevator;
 import com.techelevator.filereader.InventoryFileReader;
+import com.techelevator.view.Menu;
 
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /*
@@ -9,9 +12,13 @@ import java.util.TreeMap;
  */
 public class CateringSystem {
 
+    Menu menu = new Menu();
 
-    InventoryFileReader fileReader = new InventoryFileReader("cateringsystem.csv");
+    InventoryFileReader fileToRead = new InventoryFileReader("cateringsystem.csv");
 
-    fileReader
+
+
+
+
 
 }

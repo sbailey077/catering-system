@@ -1,6 +1,10 @@
 package com.techelevator;
 
+import com.techelevator.filereader.InventoryFileReader;
 import com.techelevator.view.Menu;
+
+import java.util.TreeMap;
+
 
 /*
  * This class should control the workflow of the application, but not do any other work
@@ -30,7 +34,10 @@ public class CateringSystemCLI {
 	 */
 	public void run() {
 
+
 		menu.showWelcomeMessage();
+		menu.showMenuOptions();
+
 
 
 		while (true) {
@@ -52,7 +59,10 @@ public class CateringSystemCLI {
 	public static void main(String[] args) {
 		Menu menu = new Menu();
 		CateringSystemCLI cli = new CateringSystemCLI(menu);
+		InventoryFileReader inventoryFileReader = new InventoryFileReader("cateringsystem.csv");
 		cli.run();
+
+
 
 	}
 }
