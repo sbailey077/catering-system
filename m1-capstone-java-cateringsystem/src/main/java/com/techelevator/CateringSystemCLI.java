@@ -1,8 +1,12 @@
 package com.techelevator;
 
 import com.techelevator.filereader.InventoryFileReader;
+import com.techelevator.items.CateringItem;
 import com.techelevator.view.Menu;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 import java.util.TreeMap;
 
 
@@ -33,25 +37,55 @@ public class CateringSystemCLI {
 	 * Your application starts here
 	 */
 	public void run() {
-
-
-		menu.showWelcomeMessage();
-		menu.showMenuOptions();
-
-
-
-		while (true) {
-			/*
+		menu = new Menu();
+		/*
 			Display the Starting Menu and get the users choice.
 			Remember all uses of System.out and System.in should be in the menu
-			
-			IF the User Choice is Display Vending Machine Items, 
+
+			IF the User Choice is Display Vending Machine Items,
 				THEN display vending machine items
 			ELSE IF the User's Choice is Purchase,
 				THEN go to the purchase menu
 			*/
+
+		InventoryFileReader inventoryFileReader = null;
+		boolean hasFilePath = false;
+		while (hasFilePath == false) {
+			String inventoryFilePath = menu.getUserInput("Please enter the inventory file path");
+			try {
+				inventoryFileReader = new InventoryFileReader(inventoryFilePath);
+				hasFilePath = true;
+			} catch (FileNotFoundException e) {
+				menu.displayError("File could not be Found.");
+			}
 		}
+
+		menu.showWelcomeMessage();
+
+		TreeMap<String, CateringItem> cateringInventory = inventoryFileReader.getInventory();
+
+		menu.showMenuOptions();
+
+		String userOptionChoice = menu.getUserOptionChoice();
+
+		if (userOptionChoice.equalsIgnoreCase("1")) {
+			menu.showInventoryDisplay(cateringInventory);
+			menu.showMenuOptions();
+		} else if (userOptionChoice.equalsIgnoreCase("2")) {
+			menu.showSubMenuOptions();
+		}
+
+
+
+
+
+
+
+
+
+
 	}
+
 
 	/*
 	 * This starts the application, but you shouldn't need to change it.  
@@ -59,7 +93,6 @@ public class CateringSystemCLI {
 	public static void main(String[] args) {
 		Menu menu = new Menu();
 		CateringSystemCLI cli = new CateringSystemCLI(menu);
-		InventoryFileReader inventoryFileReader = new InventoryFileReader("cateringsystem.csv");
 		cli.run();
 
 

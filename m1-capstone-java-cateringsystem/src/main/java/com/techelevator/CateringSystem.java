@@ -14,7 +14,8 @@ public class CateringSystem {
 
     Menu menu = new Menu();
 
-    InventoryFileReader fileToRead = new InventoryFileReader("cateringsystem.csv");
+
+
 
 
 

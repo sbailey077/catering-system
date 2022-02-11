@@ -14,17 +14,18 @@ import java.util.*;
 public class InventoryFileReader {
 
     private String inventoryFilePath;
-    private Map<String, CateringItem> inventoryMap = new HashMap<String, CateringItem>();
+    private TreeMap<String, CateringItem> inventoryMap = new TreeMap<String, CateringItem>();
 
-    public InventoryFileReader(String inventoryFilePath) {
+    public InventoryFileReader(String inventoryFilePath) throws FileNotFoundException{
         this.inventoryFilePath = inventoryFilePath;
-
+        readInventoryFromFile();
     }
-    public Map<String, CateringItem> getInventory() {
+
+    public TreeMap<String, CateringItem> getInventory() {
         return this.inventoryMap;
     }
 
-    private void readInventoryFromFile() {
+    private void readInventoryFromFile() throws FileNotFoundException{
         File file = new File(inventoryFilePath);
         try (Scanner fileScanner = new Scanner(file)) {
                 while (fileScanner.hasNextLine()) {
@@ -32,8 +33,6 @@ public class InventoryFileReader {
                     CateringItem newCateringItem = buildCateringItem(currentLine);
                     inventoryMap.put(newCateringItem.getProductCode(), newCateringItem);
                 }
-        } catch (FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND!!! TRY AGAIN!!!");
         }
     }
 
