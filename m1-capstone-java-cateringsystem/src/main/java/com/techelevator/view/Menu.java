@@ -55,10 +55,10 @@ public class Menu {
 		System.out.println("------------------------------------------------------------------------");
 
 		for(Map.Entry<String, CateringItem> mapEntryIndex : inventoryDisplay.entrySet()) {
-			double price = mapEntryIndex.getValue().getPrice();
-			System.out.printf("%-20s %-25s %-20s $%4.2", price,"%n",  mapEntryIndex.getValue().getProductCode()
-					, mapEntryIndex.getValue().getDescription(), mapEntryIndex.getValue().getQuantity());
-
+			String price = String.format("$%4.2f", mapEntryIndex.getValue().getPrice());
+			String output = String.format("%-20s %-25s %-20s", mapEntryIndex.getValue().getProductCode(),
+					mapEntryIndex.getValue().getDescription(), mapEntryIndex.getValue().getQuantity());
+			System.out.println(output + price);
 		}
 	}
 
