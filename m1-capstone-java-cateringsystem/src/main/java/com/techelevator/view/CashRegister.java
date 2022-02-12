@@ -17,4 +17,5 @@ public class CashRegister {
     public int getDepositedAmount() {
         return depositedAmount;
     }
+
 }
