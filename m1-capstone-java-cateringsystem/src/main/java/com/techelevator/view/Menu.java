@@ -62,7 +62,7 @@ public class Menu {
 		}
 	}
 
-	public String getUserOptionChoice() {
+	public String getUserNextLine() {
 		String userOptionChoice = userInput.nextLine();
 		return userOptionChoice;
 	}
@@ -73,6 +73,23 @@ public class Menu {
 		System.out.println("(2) Select Products");
 		System.out.println("(3) Complete Transactions");
 	}
+
+	public void displayIncorrectBillMessage() {
+		System.out.println("Please Enter a Valid Bill Amount: ");
+	}
+
+	public void displayCurrentBalance() {
+		CateringSystem cateringSystem = new CateringSystem(0, "");
+		double currentBalance = cateringSystem.getCurrentAccountBalance();
+		System.out.println("Current Account Balance: " + "$" + currentBalance);
+	}
+	public String getUserAddedMoney() {
+		System.out.println("Please Enter Amount of Money you Want To Add Up To $500: ");
+		String userAddedMoney = userInput.nextLine();
+		return userAddedMoney;
+	}
+
+
 
 
 }

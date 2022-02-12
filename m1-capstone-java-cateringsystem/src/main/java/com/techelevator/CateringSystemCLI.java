@@ -29,6 +29,7 @@ public class CateringSystemCLI {
 	 */
 	private Menu menu;
 
+
 	public CateringSystemCLI(Menu menu) {
 		this.menu = menu;
 	}
@@ -66,21 +67,28 @@ public class CateringSystemCLI {
 
 		menu.showMenuOptions();
 
-		String userOptionChoice = menu.getUserOptionChoice();
+		String userOptionChoice = menu.getUserNextLine();
 
+		CateringSystem cateringSystem = new CateringSystem(0.00, "");
+
+
+		while (!userOptionChoice.equalsIgnoreCase("3")) {
 		if (userOptionChoice.equalsIgnoreCase("1")) {
 			menu.showInventoryDisplay(cateringInventory);
 			menu.showMenuOptions();
+			menu.getUserNextLine();
 		} else if (userOptionChoice.equalsIgnoreCase("2")) {
 			menu.showSubMenuOptions();
+			String input = menu.getUserNextLine();
+			if (input.equalsIgnoreCase("1")) {
+				menu.getUserAddedMoney();
+				String newMoneyToAdd = menu.getUserAddedMoney();
+				cateringSystem.addMoney(newMoneyToAdd);
+				menu.showSubMenuOptions();
+
+			}
 		}
-
-
-
-
-
-
-
+	}
 
 
 
