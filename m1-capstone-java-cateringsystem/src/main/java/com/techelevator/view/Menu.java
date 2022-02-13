@@ -1,10 +1,7 @@
 package com.techelevator.view;
 
-import com.sun.source.tree.Tree;
 import com.techelevator.CateringSystem;
-import com.techelevator.filereader.InventoryFileReader;
 import com.techelevator.items.CateringItem;
-import com.techelevator.view.CashRegister;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -22,6 +19,7 @@ import java.util.TreeMap;
 public class Menu {
 
 	private static final Scanner userInput = new Scanner(System.in);
+
 
 	public void showWelcomeMessage() {
 		System.out.println("*************************");
@@ -78,17 +76,52 @@ public class Menu {
 		System.out.println("Please Enter a Valid Bill Amount: ");
 	}
 
-	public void displayCurrentBalance() {
-		CateringSystem cateringSystem = new CateringSystem(0, "");
-		double currentBalance = cateringSystem.getCurrentAccountBalance();
-		System.out.println("Current Account Balance: " + "$" + currentBalance);
+	public void printCurrentAccountBalance(double d){
+		System.out.println("Current Account Balance: " + "$" + d);
 	}
+
+
 	public String getUserAddedMoney() {
 		System.out.println("Please Enter Amount of Money you Want To Add Up To $500: ");
 		String userAddedMoney = userInput.nextLine();
 		return userAddedMoney;
 	}
 
+	public void displayMoneyCap() {
+		System.out.println("You have reached the maximum amount you are able to add.");
+	}
+
+	public void productDoesNotExistMessage() {
+		System.out.println("This product does not exist.");
+	}
+
+	public String getUserSelectedProductCode() {
+		System.out.println("Please select the item you would like to purchase: ");
+		String itemToPurchase = userInput.nextLine();
+		return itemToPurchase;
+	}
+
+	public void displaySelectedItem(String selectedCateringItem) {
+		System.out.println("You have selected: " + selectedCateringItem);
+	}
+
+	public String getItemQuantity() {
+		System.out.println("How many would you like to purchase?");
+		String itemQuantity = userInput.nextLine();
+		return itemQuantity;
+	}
+
+	public void returnCartBalance (double totalItemPrice) {
+		System.out.println("$" + totalItemPrice + " has been added to your cart.");
+	}
+
+	public void notEnoughMoneyMessage () {
+		System.out.println("You do not have enough funds for this purchase.");
+	}
+
+	public void notEnoughInStockMessage() {
+		System.out.println("There are not enough items in stock for this purchase.");
+	}
 
 
 

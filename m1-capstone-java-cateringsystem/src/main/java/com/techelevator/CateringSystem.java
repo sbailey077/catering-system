@@ -1,9 +1,10 @@
 package com.techelevator;
+import com.sun.source.tree.Tree;
 import com.techelevator.filereader.InventoryFileReader;
-import com.techelevator.view.CashRegister;
+import com.techelevator.items.CateringItem;
 import com.techelevator.view.Menu;
 
-import java.util.List;
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,35 +18,82 @@ public class CateringSystem {
     private double currentAccountBalance = 0.00;
     private String selectedProduct = "";
 
-    Menu menu = new Menu();
-    CashRegister cashRegister = new CashRegister(0.00,0);
 
-    public CateringSystem(double currentAccountBalance, String selectedProduct) {
-        this.currentAccountBalance = currentAccountBalance;
-        this.selectedProduct = selectedProduct;
+    Menu menu = new Menu();
+    InventoryFileReader inventoryFileReader = new InventoryFileReader("cateringsystem.csv");
+
+    private TreeMap<String, CateringItem> inventory = inventoryFileReader.getInventory();
+
+    public TreeMap<String, CateringItem> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(TreeMap<String, CateringItem> inventory) {
+        this.inventory = inventory;
+    }
+
+    public CateringSystem() throws FileNotFoundException {
     }
 
 
     public double addMoney(String moneyToAdd) {
-        if (moneyToAdd.equalsIgnoreCase("1")
+        if (currentAccountBalance >= 1500.00) {
+            menu.displayMoneyCap();
+            return currentAccountBalance;
+        } else if (moneyToAdd.equalsIgnoreCase("1")
                 || moneyToAdd.equalsIgnoreCase("5")
                 || moneyToAdd.equalsIgnoreCase("10")
                 || moneyToAdd.equalsIgnoreCase("20")
                 || moneyToAdd.equalsIgnoreCase("50")
                 || moneyToAdd.equalsIgnoreCase("100")) {
-          double addedMoney = Double.parseDouble(menu.getUserAddedMoney());
+          double addedMoney = Double.parseDouble(moneyToAdd);
             currentAccountBalance += addedMoney;
+            return currentAccountBalance;
         } else {
             menu.displayIncorrectBillMessage();
         }
         return currentAccountBalance;
     }
 
+    public String selectAnItem(String selectedProduct) {
+        for (Map.Entry<String, CateringItem>  map: inventory.entrySet()) {
+            if (selectedProduct.equalsIgnoreCase(map.getKey())) {
+                String selectedProductDescription = map.getValue().getDescription().toString();
+                menu.displaySelectedItem(selectedProductDescription);
+                setSelectedProduct(selectedProduct);
+                return selectedProductDescription;
+            }
+        }
+        menu.productDoesNotExistMessage();
+        return "";
+    }
 
+    public double getItemPrice(String userEnteredQty) {
+        int itemQty = Integer.parseInt(userEnteredQty);
+        double totalItemPrice = 0.00;
+        String selectedProduct = getSelectedProduct();
+        int currentItemQty = 0;
+        for(Map.Entry<String, CateringItem> map : inventory.entrySet()) {
+            if(selectedProduct.equalsIgnoreCase(map.getKey()) ) {
+                double itemPrice = map.getValue().getPrice();
+                totalItemPrice = itemPrice * itemQty;
+                currentItemQty = inventory.get(selectedProduct).getQuantity();
+                currentItemQty -= itemQty;
+                inventory.get(selectedProduct).setQuantity(currentItemQty);
+            }
+        }
+        if (totalItemPrice > getCurrentAccountBalance()) {
+            menu.notEnoughMoneyMessage();
+        }
+        if (currentItemQty < inventory.get(selectedProduct).getQuantity()) {
+            menu.notEnoughInStockMessage();
+        }
+        return totalItemPrice;
+    }
 
-
-
-
+    public void setSelectedProduct(String selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
 
     public double getCurrentAccountBalance() {
         return currentAccountBalance;

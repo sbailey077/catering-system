@@ -37,7 +37,7 @@ public class CateringSystemCLI {
 	/*
 	 * Your application starts here
 	 */
-	public void run() {
+	public void run() throws FileNotFoundException {
 		menu = new Menu();
 		/*
 			Display the Starting Menu and get the users choice.
@@ -69,23 +69,28 @@ public class CateringSystemCLI {
 
 		String userOptionChoice = menu.getUserNextLine();
 
-		CateringSystem cateringSystem = new CateringSystem(0.00, "");
+		CateringSystem cateringSystem = new CateringSystem();
 
 
-		while (!userOptionChoice.equalsIgnoreCase("3")) {
+		while (userOptionChoice.equalsIgnoreCase("1") || userOptionChoice.equalsIgnoreCase("2") || userOptionChoice.equalsIgnoreCase("3")) {
 		if (userOptionChoice.equalsIgnoreCase("1")) {
 			menu.showInventoryDisplay(cateringInventory);
 			menu.showMenuOptions();
-			menu.getUserNextLine();
+			userOptionChoice = menu.getUserNextLine();
 		} else if (userOptionChoice.equalsIgnoreCase("2")) {
 			menu.showSubMenuOptions();
 			String input = menu.getUserNextLine();
 			if (input.equalsIgnoreCase("1")) {
-				menu.getUserAddedMoney();
 				String newMoneyToAdd = menu.getUserAddedMoney();
 				cateringSystem.addMoney(newMoneyToAdd);
-				menu.showSubMenuOptions();
-
+				menu.printCurrentAccountBalance(cateringSystem.getCurrentAccountBalance());
+			} else if (input.equalsIgnoreCase("2")) {
+				menu.showInventoryDisplay(cateringInventory);
+				String userSelectedItem = menu.getUserSelectedProductCode();
+				String selectedCateringItem = cateringSystem.selectAnItem(userSelectedItem);
+				String itemQty = menu.getItemQuantity();
+				double itemPrice = cateringSystem.getItemPrice(itemQty);
+				menu.returnCartBalance(itemPrice);
 			}
 		}
 	}
@@ -98,7 +103,7 @@ public class CateringSystemCLI {
 	/*
 	 * This starts the application, but you shouldn't need to change it.  
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		Menu menu = new Menu();
 		CateringSystemCLI cli = new CateringSystemCLI(menu);
 		cli.run();

@@ -45,7 +45,6 @@ public class InventoryFileReader {
         String description = cateringItemParts[2];
         String price = cateringItemParts[3];
 
-
         if (type.equalsIgnoreCase("A")) {
             cateringItem = new Appetizer(type, productCode, description);
         } else if (type.equalsIgnoreCase("B")) {
