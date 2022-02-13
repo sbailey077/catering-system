@@ -1,5 +1,8 @@
 package com.techelevator.items;
 
+import com.techelevator.view.Menu;
+
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 
 /*
@@ -13,7 +16,9 @@ public class CateringItem {
     private int quantity = 25;
     private double price;
 
-    public CateringItem(String type, String productCode, String description) {
+    Menu menu = new Menu();
+
+    public CateringItem(String type, String productCode, String description) throws FileNotFoundException {
         this.productCode = productCode;
         this.description = description;
         this.type = type;

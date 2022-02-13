@@ -36,7 +36,7 @@ public class InventoryFileReader {
         }
     }
 
-    private CateringItem buildCateringItem(String currentLine) {
+    private CateringItem buildCateringItem(String currentLine) throws FileNotFoundException {
         CateringItem cateringItem = null;
         String[] cateringItemParts = currentLine.split("\\|");
 

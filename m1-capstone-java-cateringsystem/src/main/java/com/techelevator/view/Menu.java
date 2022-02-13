@@ -1,8 +1,10 @@
 package com.techelevator.view;
 
+import com.sun.source.tree.Tree;
 import com.techelevator.CateringSystem;
 import com.techelevator.items.CateringItem;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -19,6 +21,10 @@ import java.util.TreeMap;
 public class Menu {
 
 	private static final Scanner userInput = new Scanner(System.in);
+	
+
+	public Menu() throws FileNotFoundException {
+	}
 
 
 	public void showWelcomeMessage() {
@@ -111,7 +117,7 @@ public class Menu {
 		return itemQuantity;
 	}
 
-	public void returnCartBalance (double totalItemPrice) {
+	public void returnBalanceAdded (double totalItemPrice) {
 		System.out.println("$" + totalItemPrice + " has been added to your cart.");
 	}
 
@@ -123,6 +129,40 @@ public class Menu {
 		System.out.println("There are not enough items in stock for this purchase.");
 	}
 
+	public void displayCartTotal(double totalPrice) {
+		System.out.println("Total Balance in Cart: " + "$" + totalPrice);
+	}
 
+	public String appetizerMessage() {
+		System.out.println("You might need extra plates.");
+		return "";
+	}
+
+	public void beverageMessage() {
+		System.out.println("Don't forget ice.");
+	}
+
+	public void entreeMessage() {
+		System.out.println("Did you remember Dessert?");
+	}
+
+	public String dessertMessage() {
+		System.out.println("Coffee goes with Dessert.");
+		return "";
+	}
+
+	public void receiptMessage(TreeMap<String, CateringItem> receiptMap) {
+
+		for(Map.Entry<String, CateringItem> mapIndex : receiptMap.entrySet()) {
+			System.out.println(String.format("%-20s %-20s %-20s %-20s %-20s %-20s"
+					, mapIndex.getValue().getQuantity()
+					, mapIndex.getValue().getClass()
+					, mapIndex.getValue().getDescription()
+					, mapIndex.getValue().getPrice()
+					, mapIndex.getValue().getQuantity() * mapIndex.getValue().getPrice())
+			);
+		}
+
+	}
 
 }

@@ -64,32 +64,35 @@ public class CateringSystem {
                 return selectedProductDescription;
             }
         }
-        menu.productDoesNotExistMessage();
-        return "";
+        selectedProduct = "";
+        return selectedProduct;
     }
 
     public double getItemPrice(String userEnteredQty) {
         int itemQty = Integer.parseInt(userEnteredQty);
         double totalItemPrice = 0.00;
         String selectedProduct = getSelectedProduct();
-        int currentItemQty = 0;
+        int currentItemQty = inventory.get(selectedProduct).getQuantity();
         for(Map.Entry<String, CateringItem> map : inventory.entrySet()) {
-            if(selectedProduct.equalsIgnoreCase(map.getKey()) ) {
+             if(selectedProduct.equalsIgnoreCase(map.getKey())) {
                 double itemPrice = map.getValue().getPrice();
                 totalItemPrice = itemPrice * itemQty;
-                currentItemQty = inventory.get(selectedProduct).getQuantity();
                 currentItemQty -= itemQty;
+                    if (totalItemPrice > getCurrentAccountBalance()) {
+                        menu.notEnoughMoneyMessage();
+                        return totalItemPrice;
+                    } else if (currentItemQty < itemQty) {
+                        menu.notEnoughInStockMessage();
+                        return itemQty;
+                    }
                 inventory.get(selectedProduct).setQuantity(currentItemQty);
+                menu.returnBalanceAdded(totalItemPrice);
             }
         }
-        if (totalItemPrice > getCurrentAccountBalance()) {
-            menu.notEnoughMoneyMessage();
-        }
-        if (currentItemQty < inventory.get(selectedProduct).getQuantity()) {
-            menu.notEnoughInStockMessage();
-        }
-        return totalItemPrice;
+        return 0.00;
     }
+
+
 
     public void setSelectedProduct(String selectedProduct) {
         this.selectedProduct = selectedProduct;

@@ -2,6 +2,7 @@ package com.techelevator;
 
 import com.techelevator.filereader.InventoryFileReader;
 import com.techelevator.items.CateringItem;
+import com.techelevator.view.Cart;
 import com.techelevator.view.Menu;
 
 import java.io.FileNotFoundException;
@@ -63,13 +64,16 @@ public class CateringSystemCLI {
 
 		menu.showWelcomeMessage();
 
-		TreeMap<String, CateringItem> cateringInventory = inventoryFileReader.getInventory();
+		CateringSystem cateringSystem = new CateringSystem();
+
+		TreeMap<String, CateringItem> cateringInventory =cateringSystem.getInventory();
 
 		menu.showMenuOptions();
 
 		String userOptionChoice = menu.getUserNextLine();
 
-		CateringSystem cateringSystem = new CateringSystem();
+
+		Cart cart = new Cart();
 
 
 		while (userOptionChoice.equalsIgnoreCase("1") || userOptionChoice.equalsIgnoreCase("2") || userOptionChoice.equalsIgnoreCase("3")) {
@@ -88,10 +92,20 @@ public class CateringSystemCLI {
 				menu.showInventoryDisplay(cateringInventory);
 				String userSelectedItem = menu.getUserSelectedProductCode();
 				String selectedCateringItem = cateringSystem.selectAnItem(userSelectedItem);
-				String itemQty = menu.getItemQuantity();
-				double itemPrice = cateringSystem.getItemPrice(itemQty);
-				menu.returnCartBalance(itemPrice);
+				if (cateringInventory.containsKey(userSelectedItem)) {
+					String itemQty = menu.getItemQuantity();
+					double itemPrice = cateringSystem.getItemPrice(itemQty);
+					double totalPrice = cart.determineTotalPrice(itemPrice);
+					int totalQty = cart.determineTotalQty(Integer.parseInt(itemQty));
+					if (totalPrice < cateringSystem.getCurrentAccountBalance()) {
+						menu.displayCartTotal(totalPrice);
+					}
+				} else {
+					menu.productDoesNotExistMessage();
+				}
 			}
+		} else if (userOptionChoice.equalsIgnoreCase("3")) {
+
 		}
 	}
 
